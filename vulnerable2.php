@@ -1,4 +1,9 @@
 <?php
+require 'vendor/autoload.php';
+use Cake\ORM\TableRegistry;
+
+$usersTable = TableRegistry::get('Users');
+$user = $usersTable->find()->where(['username' => 'john'])->first();
 
 if( isset( $_POST[ 'btnSign' ] ) ) {
 	// Get input
