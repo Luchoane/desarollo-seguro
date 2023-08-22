@@ -16,7 +16,9 @@ jobs:
           command: bash <(curl -s https://raw.githubusercontent.com/zricethezav/gitleaks-ci/master/gitleaks.sh)
       - run:
           name: Install Composer
-          command: composer install
+          command: |
+            echo '{ "require": { "php": ">=7.2" } }'' >> composer.json
+            composer install
       - run:
           name: Run security checker
           command: composer require sensiolabs/security-checker && php vendor/bin/security-checker security:check
