@@ -23,6 +23,7 @@ jobs:
           name: Run security checker
           command: |
             wget https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_linux_386
+            chmod +x local-php-security-checker_2.0.6_linux_386
             ./local-php-security-checker_2.0.6_linux_386
       # - run:
       #     name: Run static analysis
