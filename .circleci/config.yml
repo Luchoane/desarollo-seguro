@@ -21,7 +21,7 @@ jobs:
             composer install
       - run:
           name: Run security checker
-          command: composer require sensiolabs/security-checker && php vendor/bin/security-checker security:check
+          command: composer require sensiolabs/security-checker && php bin/console security:check
       - run:
           name: Run static analysis
           command: composer require --dev phpstan/phpstan && php vendor/bin/phpstan analyze --level=max src/
