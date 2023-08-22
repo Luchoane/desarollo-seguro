@@ -1,2 +1,2 @@
 FROM python:3.8
-RUN "print"
+RUN "printt"

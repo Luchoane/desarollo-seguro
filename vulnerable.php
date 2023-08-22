@@ -1,5 +1,5 @@
 <?php
-// Datos proporcionados por el usuario
+// Datos proporcionados por el usuario 
 $nombre_usuario = $_GET['nombre'];
 
 $conexion = mysqli_connect("localhost", "usuario", "contraseña", "basededatos");
