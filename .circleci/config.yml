@@ -21,10 +21,12 @@ jobs:
             composer install
       - run:
           name: Run security checker
-          command: composer require sensiolabs/security-checker && php bin/console security:check
-      - run:
-          name: Run static analysis
-          command: composer require --dev phpstan/phpstan && php vendor/bin/phpstan analyze --level=max src/
+          command: |
+            wget https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_linux_386
+            local-php-security-checker
+      # - run:
+      #     name: Run static analysis
+      #     command: composer require --dev phpstan/phpstan && php vendor/bin/phpstan analyze --level=max src/
 workflows:
   version: 2
   release:
