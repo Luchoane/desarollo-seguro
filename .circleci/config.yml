@@ -6,9 +6,8 @@ jobs:
       - checkout
       - run:
           name: Scan Docker image with trivy
-          command: >
-            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
-            && trivy image --exit-code 0 your-docker-image:tag
+          command: |
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b ~/bin
       # - run:
       #     name: Build image
       #     command: docker build -t trivy-ci-test:${CIRCLE_SHA1} .
@@ -19,7 +18,7 @@ jobs:
       #       curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
       - run:
           name: Scan the local image with trivy
-          command: trivy --exit-code 0 --no-progress trivy-ci-test:${CIRCLE_SHA1}
+          command: ~/bin/trivy --exit-code 0 --no-progress trivy-ci-test:${CIRCLE_SHA1}
       - run:
           name: Scan with GitLeaks
           command: bash <(curl -s https://raw.githubusercontent.com/zricethezav/gitleaks-ci/master/gitleaks.sh)
