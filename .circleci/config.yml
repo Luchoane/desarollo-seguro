@@ -1,0 +1,39 @@
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.4
+    steps:
+      - checkout
+      - run:
+          name: Scan Docker image with trivy
+          command: >
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+            && trivy image --exit-code 0 your-docker-image:tag
+      # - run:
+      #     name: Build image
+      #     command: docker build -t trivy-ci-test:${CIRCLE_SHA1} .
+      # - run:
+      #     name: Install trivy
+      #     command: |
+      #       apk add --update-cache --upgrade curl
+      #       curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+      - run:
+          name: Scan the local image with trivy
+          command: trivy --exit-code 0 --no-progress trivy-ci-test:${CIRCLE_SHA1}
+      - run:
+          name: Scan with GitLeaks
+          command: bash <(curl -s https://raw.githubusercontent.com/zricethezav/gitleaks-ci/master/gitleaks.sh)
+      - run:
+          name: Install Composer
+          command: composer install
+      - run:
+          name: Run security checker
+          command: composer require sensiolabs/security-checker && php vendor/bin/security-checker security:check
+      - run:
+          name: Run static analysis
+          command: composer require --dev phpstan/phpstan && php vendor/bin/phpstan analyze --level=max src/
+workflows:
+  version: 2
+  release:
+    jobs:
+      - build
